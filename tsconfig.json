@@ -1,7 +1,7 @@
 {
   "extends": "@finsweet/tsconfig",
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "./src/index.ts",
     "baseUrl": "./",
     "paths": {
       "$utils/*": ["src/utils/*"]
