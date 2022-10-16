@@ -7,6 +7,8 @@ async function countriesDropdown() {
       'https://restcountries.com/v2/all?fields=name,callingCodes,flags,alpha3Code,alpha2Code'
     );
     let countries = await response.json();
+    // eslint-disable-next-line no-console
+    console.log(countries);
     //Needed variables through out the code.
     const field = document.getElementById('selectedCode');
     const selectFlag = document.getElementById('selectedFlag');
@@ -59,28 +61,31 @@ async function countriesDropdown() {
         option.className = 'options';
         option.role = `Option ${country.name}`;
         flagImg.src = `${country.flags.svg}`;
+        flagImg.className = 'flags';
         flagImg.id = 'flag';
         flagImg.alt = `${country.name} flag`;
-        code.id = 'code';
+        code.id = `+${country.callingCodes[0]}`;
+        code.className = 'textBlock';
+        newOption.className = 'box2';
         newOption.value = `${country.name}`;
         code.innerText = `${country.alpha2Code}`;
         // event for selecting each option of the dropdown (didn't work on the event.js)
         option.onclick = function () {
-          field.innerHTML = code.value;
-          select.classList.toggle('hide');
+          field.innerHTML = code.id;
+          // select.classList.toggle('hide');
           selectFlag.src = flagImg.src;
         };
       });
-      select.children[0].querySelector('div').classList.toggle('focus');
+      select.children[0].querySelector('div').classList.toggle('current');
     } // eslint-disable-next-line no-console
     //Variables specifically needed for events
     let active = 0;
     const options = select.children;
-    const selector = document.getElementById('selected');
-    //Event to open the dropdown
-    selector.onclick = function () {
-      select.classList.toggle('hide');
-    };
+    // const selector = document.getElementById('selected');
+    //Event to open the dropdown not needed in webflow
+    // selector.onclick = function () {
+    //   select.classList.toggle('hide');
+    // };
     //Navigation through keyboard event:
     document.addEventListener('keydown', function (e) {
       switch (e.code) {
@@ -92,8 +97,8 @@ async function countriesDropdown() {
               top: 40,
               behavior: 'smooth',
             });
-            options[active].querySelector('div').classList.toggle('focus');
-            options[active - 1].querySelector('div').classList.toggle('focus');
+            options[active].querySelector('div').classList.toggle('current');
+            options[active - 1].querySelector('div').classList.toggle('current');
           }
           break;
         case 'ArrowUp':
@@ -104,13 +109,13 @@ async function countriesDropdown() {
               top: -40,
               behavior: 'smooth',
             });
-            options[active].querySelector('div').classList.toggle('focus');
-            options[active + 1].querySelector('div').classList.toggle('focus');
+            options[active].querySelector('div').classList.toggle('current');
+            options[active + 1].querySelector('div').classList.toggle('current');
           }
           break;
         case 'Enter':
-          field.innerHTML = `${options[active].querySelector('p').value}`;
-          select.classList.toggle('hide');
+          field.innerHTML = `${options[active].querySelector('p').id}`;
+          // select.classList.toggle('hide');
           selectFlag.src = options[active].querySelector('img').src;
       }
     });
